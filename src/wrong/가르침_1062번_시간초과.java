@@ -3,7 +3,7 @@ package wrong;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class 가르침_1062번_틀림 {
+public class 가르침_1062번_시간초과 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
