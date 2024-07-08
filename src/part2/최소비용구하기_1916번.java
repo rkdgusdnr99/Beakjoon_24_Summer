@@ -1,9 +1,11 @@
 package part2;
 
+import gloval.Edge;
+
 import java.util.*;
 
-// Edge 클래스: e와 fee 쌍을 저장하는 클래스
-class Edge implements Comparable<Edge> {
+/*
+* class Edge implements Comparable<Edge> {
     int e;
     int fee;
 
@@ -18,6 +20,7 @@ class Edge implements Comparable<Edge> {
         return Integer.compare(this.fee, other.fee);
     }
 }
+* */
 
 public class 최소비용구하기_1916번 {
     static int N, M;
