@@ -33,23 +33,7 @@ public class 줄세우기_2252번_오답 {
         int count = 0;
         for (int i = 1; i <= N; i++) {
             if (!lined[i]) {
-                count++;
-                line.insert(position, i);
-                lined[i] = true;
-                while (!leftList.get(i).isEmpty()) {
-                    int temp = leftList.get(i).pop();
-                    if (!lined[temp]) {
-                        lineUp(0, temp);
-                    }
-                }
-                while (!rightList.get(i).isEmpty()) {
-                    position += count;
-                    count = 0;
-                    int temp = rightList.get(i).pop();
-                    if (!lined[temp]) {
-                        lineUp(0, temp);
-                    }
-                }
+                lineUp(count, i);
             }
         }
         System.out.println(line);
