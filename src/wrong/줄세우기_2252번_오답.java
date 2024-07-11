@@ -42,7 +42,7 @@ public class 줄세우기_2252번_오답 {
 
     static void lineUp(int count, int student) {
         count++;
-        line.insert(position, student);
+        line.insert(position, student + " ");
         lined[student] = true;
 
         while (!leftList.get(student).isEmpty()) {
