@@ -24,7 +24,7 @@ class Continuous implements Comparable<Continuous> {
     }
 }
 
-public class 사탕게임_3085번 {
+public class 사탕게임_3085번_너무복잡 {
     static int N;
     static char[][] candy;
     static PriorityQueue<Continuous> row;
@@ -75,9 +75,9 @@ public class 사탕게임_3085번 {
                 System.exit(0);
             }
             if (i == N-1) {
-                
+
             } else if (i == 0) {
-                
+
             } else {
                 for (Continuous continuous : row) {
                     int sum = continuous.len;
@@ -85,9 +85,9 @@ public class 사탕게임_3085번 {
                     int start = continuous.start;
                     int end = continuous.end;
                     if (start == 0) {
-                        
+
                     } else if (end == N-1) {
-                        
+
                     }
                     else {
                         if (candy[i+1][start-1] == word || candy[i-1][start-1] == word) {
@@ -103,7 +103,7 @@ public class 사탕게임_3085번 {
                             max = Math.max(sum, max);
                         }
                     }
-                }   
+                }
             }
         }
 
