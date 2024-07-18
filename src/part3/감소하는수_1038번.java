@@ -13,8 +13,7 @@ public class 감소하는수_1038번 {
             System.out.println(N);
         }
         else {
-            list.add(0L);
-            for (int i = 1; i < 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 bp(i,1);
             }
             Collections.sort(list);
@@ -30,10 +29,6 @@ public class 감소하는수_1038번 {
             return;
         }
         list.add(num);
-        int remain = (int)(num % 10);
-        if (remain == 0) {
-            return;
-        }
         for (int i = 0; i < num % 10; i++) {
             bp((num * 10) + i, idx + 1);
         }
