@@ -48,9 +48,7 @@ public class BFS와DFS_1260번 {
         sum = 1;
         visited = new boolean[N+1];
         visited[V] = true;
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(V);
-        bfs(queue);
+        bfs();
         System.out.println(bfsOutput.toString());
 
     }
@@ -70,7 +68,9 @@ public class BFS와DFS_1260번 {
         }
     }
 
-    static void bfs(Queue<Integer> queue) {
+    static void bfs() {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(V);
         while (!queue.isEmpty()) {
             if (sum == N) {
                 return;
