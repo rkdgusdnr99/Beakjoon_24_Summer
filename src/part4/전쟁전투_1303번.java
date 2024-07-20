@@ -2,7 +2,7 @@ package part4;
 
 import java.io.*;
 
-public class 전쟁전투 {
+public class 전쟁전투_1303번 {
     static int N, M;
     static char[][] map;
     static boolean[][] visited;
