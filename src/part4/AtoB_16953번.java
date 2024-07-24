@@ -29,7 +29,7 @@ public class AtoB_16953번 {
     }
 
     static int One(int num) {
-        if ((num - 1) % 10 == 0) {
+        if (num % 10 == 1) {
             return (num - 1) / 10;
         } else {
             return Two(num);
