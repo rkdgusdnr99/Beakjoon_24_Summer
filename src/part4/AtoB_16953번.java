@@ -11,20 +11,18 @@ public class AtoB_16953번 {
         A = sc.nextInt();
         B = sc.nextInt();
 
-        AtoB(B, 1);
+        System.out.println(AtoB(B, 1));
     }
 
-    static void AtoB(int num, int count) {
+    static int AtoB(int num, int count) {
         while (num > A) {
             num = One(num);
             count++;
         }
         if (num == A) {
-            System.out.println(count);
-            System.exit(0);
+            return count;
         } else {
-            System.out.println(-1);
-            System.exit(0);
+            return -1;
         }
     }
 
