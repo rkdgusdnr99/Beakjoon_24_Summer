@@ -1,7 +1,6 @@
 package wrong;
 
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class 숨바꼭질3_13549번_시간초과 {
     static int N, K;
@@ -48,7 +47,10 @@ public class 숨바꼭질3_13549번_시간초과 {
                         if (i == K) {
                             return;
                         }
-                        nextStep(stack1, num, i);
+                        if (!visited[i]) {
+                            nextStep(stack1, num, i);
+                            visited[i] = true;
+                        }
                     }
                     nextStep(stack1, num, num);
                 }
