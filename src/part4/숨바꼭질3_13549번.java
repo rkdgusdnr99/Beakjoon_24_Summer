@@ -17,14 +17,16 @@ class Node implements Comparable<Node>{
 public class 숨바꼭질3_13549번 {
     static int N, K;
     static boolean[] visited;
+    static int size;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         N = sc.nextInt();
         K = sc.nextInt();
 
+        size = Math.min(Math.max(N,K)*2+1, 100001);
 
-        visited = new boolean[100001];
+        visited = new boolean[size];
 
         System.out.println(bfs());
     }
@@ -39,10 +41,10 @@ public class 숨바꼭질3_13549번 {
             if (node.x == K) {
                 return node.time;
             }
-            if (node.x * 2 < 100001 && !visited[node.x*2]) {
+            if (node.x * 2 < size && !visited[node.x*2]) {
                 pq.add(new Node(node.x*2, node.time));
             }
-            if (node.x + 1 < 100001 && !visited[node.x+1]) {
+            if (node.x + 1 < size && !visited[node.x+1]) {
                 pq.add(new Node(node.x+1, node.time+1));
             }
             if (node.x - 1 >= 0 && !visited[node.x-1]) {
