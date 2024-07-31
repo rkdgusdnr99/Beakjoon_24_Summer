@@ -2,7 +2,7 @@ package part4;
 
 import java.util.*;
 
-class Imo implements Comparable<Imo>{
+class Imo {
     int count;
     int clipboard;
     int time;
@@ -10,9 +10,6 @@ class Imo implements Comparable<Imo>{
         this.count = count;
         this.clipboard = clipboard;
         this.time = time;
-    }
-    public int compareTo(Imo other) {
-        return Integer.compare(this.time, other.time);
     }
 }
 
@@ -30,7 +27,7 @@ public class 이모티콘_14226번 {
     }
 
     static int bfs() {
-        PriorityQueue<Imo> pq = new PriorityQueue<>();
+        Queue<Imo> pq = new LinkedList<>();
         pq.add(new Imo(1, 0, 0));
         visited[1][0] = true;
 
