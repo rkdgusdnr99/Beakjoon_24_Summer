@@ -7,7 +7,6 @@ public class 아기상어2_17086번 {
     static int N,M;
     static int[] xMove = {0,0,-1,1,-1,1,-1,1};
     static int[] yMove = {1,-1,0,0,1,-1,-1,1};
-    static int[][] map;
     static int[][] sd;
     static Queue<int[]> shark;
     static int max = 0;
@@ -19,16 +18,13 @@ public class 아기상어2_17086번 {
         N = Integer.parseInt(nums[0]);
         M = Integer.parseInt(nums[1]);
 
-        map = new int[N][M];
         sd = new int[N][M];
         shark = new LinkedList<>();
 
         for (int i = 0; i < N; i++) {
             String[] line = br.readLine().split(" ");
             for (int j = 0; j < M; j++) {
-                int num = Integer.parseInt(line[j]);
-                map[i][j] = num;
-                if (num == 1) {
+                if (Integer.parseInt(line[j]) == 1) {
                     shark.add(new int[]{i, j});
                 }
             }
