@@ -8,7 +8,6 @@ public class 아기상어2_17086번 {
     static int[] xMove = {0,0,-1,1,-1,1,-1,1};
     static int[] yMove = {1,-1,0,0,1,-1,-1,1};
     static int[][] map;
-    static boolean[][] visited;
     static int[][] sd;
     static Queue<int[]> shark;
     static int max = 0;
@@ -21,7 +20,6 @@ public class 아기상어2_17086번 {
         M = Integer.parseInt(nums[1]);
 
         map = new int[N][M];
-        visited = new boolean[N][M];
         sd = new int[N][M];
         shark = new LinkedList<>();
 
@@ -45,7 +43,6 @@ public class 아기상어2_17086번 {
             int y = pos[0];
             int x = pos[1];
             findShark(y, x);
-            visited = new boolean[N][M];
         }
 
         for (int i = 0; i < N; i++) {
@@ -60,7 +57,6 @@ public class 아기상어2_17086번 {
     static void findShark(int y, int x) {
         Queue<int[]> queue = new LinkedList<>();
         queue.add(new int[]{y,x,0});
-        visited[y][x] = true;
         sd[y][x] = 0;
 
         while (!queue.isEmpty()) {
@@ -74,9 +70,8 @@ public class 아기상어2_17086번 {
                 int nextX = nowX + xMove[i];
 
                 if (nextX >= 0 && nextX < M && nextY >= 0 && nextY < N
-                        && !visited[nextY][nextX] && sd[nextY][nextX] > distance + 1) {
+                        && sd[nextY][nextX] > distance + 1) {
                     queue.add(new int[]{nextY, nextX, distance + 1});
-                    visited[nextY][nextX] = true;
                     sd[nextY][nextX] = distance + 1;
                 }
             }
