@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 달리기_16930번_메모리초과 {
+public class 달리기_16930번_시간초과 {
     static int N, M, K;
     static boolean[][] gym;
     static int x1, y1, x2, y2;
@@ -52,7 +52,7 @@ public class 달리기_16930번_메모리초과 {
             int nowY = now[1];
             int time = now[2];
 
-            gym[nowX][nowY] = true;
+            gym[nowX][nowY] = false;
 
             if (nowX == x2-1 && nowY == y2-1) {
                 return time;
