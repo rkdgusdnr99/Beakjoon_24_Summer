@@ -43,8 +43,11 @@ public class 기타리스트_1495번_queue {
         }
 
         int max = -1;
-        while (!queue.isEmpty()) {
-            max = Math.max(max, queue.poll());
+        for (int i = M; i >= 0; i--) {
+            if (visited[N][i]) {
+                max = i;
+                break;
+            }
         }
         System.out.println(max);
 
