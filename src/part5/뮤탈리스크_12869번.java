@@ -8,22 +8,27 @@ public class 뮤탈리스크_12869번 {
     static int[][] attack = {{9, 3, 1}, {9, 1, 3},
             {3, 9, 1}, {3, 1, 9},
             {1, 9, 3}, {1, 3, 9}};
-    static boolean[][][] dp;
+    static boolean[][][] visited;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         N = sc.nextInt();
 
         queue = new LinkedList<>();
-        dp = new boolean[61][61][61];
+        visited = new boolean[61][61][61];
 
         int[] input = new int[4];
         for (int i = 0; i < N; i++) {
             input[i] = sc.nextInt();
         }
-        dp[input[0]][input[1]][input[2]] = true;
+        sort(input);
+        visited[input[0]][input[1]][input[2]] = true;
         queue.add(input);
 
+        System.out.println(bfs());
+    }
+
+    static int bfs() {
         while (!queue.isEmpty()) {
             int[] temp = queue.poll();
 
@@ -35,17 +40,18 @@ public class 뮤탈리스크_12869번 {
                 arr[3] = temp[3] + 1;
 
                 if (arr[0] == 0 && arr[1] == 0 && arr[2] == 0) {
-                    System.out.println(arr[3]);
-                    System.exit(0);
+                    return arr[3];
                 }
 
-                if (!dp[arr[0]][arr[1]][arr[2]]) {
+                sort(arr);
+
+                if (!visited[arr[0]][arr[1]][arr[2]]) {
                     queue.add(arr);
-                    dp[arr[0]][arr[1]][arr[2]] = true;
+                    visited[arr[0]][arr[1]][arr[2]] = true;
                 }
             }
-
         }
+        return 0;
     }
 
     static int scv(int scv, int attack) {
@@ -54,5 +60,13 @@ public class 뮤탈리스크_12869번 {
         } else {
             return 0;
         }
+    }
+
+    static void sort(int[] arr) {
+        Integer[] arrCopy = {arr[0], arr[1], arr[2]};
+        Arrays.sort(arrCopy, Collections.reverseOrder());
+        arr[0] = arrCopy[0];
+        arr[1] = arrCopy[1];
+        arr[2] = arrCopy[2];
     }
 }
