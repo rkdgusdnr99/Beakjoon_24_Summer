@@ -24,20 +24,19 @@ public class 행렬곱셈순서_11049번 {
     }
 
     static int minProcession(int[] p, int n) {
-        int[][] dp = new int[n][n];
+        int[][] dp = new int[n+1][n+1];
 
-        for(int length = 2; length <= n; length++) {
-            for(int i = 0; i <= n - length; i++) {
-                int j = i + length - 1;
-                dp[i][j] = Integer.MAX_VALUE;
+        for(int count = 2; count <= n; count++) { // 사용되는 행렬 개수
+            for(int end = count; end <= n; end++) { // 마지막 행렬의 순번
+                dp[count][end] = Integer.MAX_VALUE;
 
-                for(int k = i; k < j; k++) {
-                    int candidate = dp[i][k] + dp[k+1][j] + p[i] * p[k+1] * p[j+1];
-                    dp[i][j] = Math.min(dp[i][j], candidate);
+                for(int k = 1; k < count; k++) { // k : count - k 로 행렬을 나눔
+                    int start = end - count + 1;
+                    int candidate = dp[k][end-count+k] + dp[count - k][end] + p[start - 1] * p[end - count + k] * p[end];
+                    dp[count][end] = Math.min(dp[count][end], candidate);
                 }
             }
         }
-        return dp[0][n-1];
+        return dp[n][n];
     }
 }
-
