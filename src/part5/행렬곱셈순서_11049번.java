@@ -20,22 +20,24 @@ public class 행렬곱셈순서_11049번 {
             p[i] = procession[i][1];
         }
 
-        System.out.println(maxProcession(p, N));
+        System.out.println(minProcession(p, N));
     }
 
-    static int maxProcession(int[] p, int n) {
+    static int minProcession(int[] p, int n) {
         int[][] dp = new int[n][n];
 
-        for(int i=2; i<n+1; i++) { // 구간 간격
-            for(int j=0; j<n-i+1; j++) { // 구간 시작점 j (0~n-i))
-                dp[j][j+i-1] = Integer.MAX_VALUE;
-                for(int k=j; k<j+i-1; k++) { // 중간 지점 k (j~ j+i-1))
-                    int value = dp[j][k]  + dp[k+1][j+i-1] + (p[j]*p[k+1]*p[j+i]);
-                    dp[j][j+i-1] = Math.min(dp[j][j+i-1], value);
+        for(int length = 2; length <= n; length++) {
+            for(int i = 0; i <= n - length; i++) {
+                int j = i + length - 1;
+                dp[i][j] = Integer.MAX_VALUE;
+
+                for(int k = i; k < j; k++) {
+                    int candidate = dp[i][k] + dp[k+1][j] + p[i] * p[k+1] * p[j+1];
+                    dp[i][j] = Math.min(dp[i][j], candidate);
                 }
             }
         }
         return dp[0][n-1];
     }
-
 }
+

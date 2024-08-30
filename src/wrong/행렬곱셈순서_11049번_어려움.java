@@ -20,10 +20,10 @@ public class 행렬곱셈순서_11049번_어려움 {
             p[i] = procession[i][1];
         }
 
-        System.out.println(maxProcession(p, N));
+        System.out.println(minProcession(p, N));
     }
 
-    static int maxProcession(int[] p, int n) {
+    static int minProcession(int[] p, int n) {
         int[][] dp = new int[n][n];
 
         for(int i=2; i<n+1; i++) { // 구간 간격
