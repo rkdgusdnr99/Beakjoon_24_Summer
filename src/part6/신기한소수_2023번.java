@@ -3,6 +3,8 @@ package part6;
 import java.util.*;
 
 public class 신기한소수_2023번 {
+    static int[] next = new int[]{1, 3, 7, 9};
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
@@ -10,8 +12,27 @@ public class 신기한소수_2023번 {
         // 2, 3, 5, 7로 시작해야 함
         // 이후 0, 2, 4, 5, 6, 8은 나올 수 없음
         // 그렇다면 짝수로 나눠볼 필요가 없어짐
-        int[] next = new int[]{1, 3, 7, 9};
 
+        // 1. bfs 풀이
+        bfs(N);
+
+        // 2. backTracking 풀이
+        int[] first = new int[]{2, 3, 5, 7};
+        for (int num : first) {
+            backTracking(N, num);
+        }
+    }
+
+    static boolean isPrime(int n) {
+        for (int i = 3; i <= n/3; i+=2) { // 짝수는 고려 안해도 됨
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static void bfs(int N) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(2);
         queue.add(3);
@@ -37,12 +58,18 @@ public class 신기한소수_2023번 {
         }
     }
 
-    static boolean isPrime(int n) {
-        for (int i = 3; i <= n/3; i+=2) {
-            if (n % i == 0) {
-                return false;
-            }
+    static void backTracking(int N, int num) {
+        if ((int) Math.log10(num) + 1 == N) {
+            System.out.println(num);
+            return;
         }
-        return true;
+
+        for (int i = 0; i < 4; i++) {
+            int newNum = num * 10 + next[i];
+            if (isPrime(newNum)) {
+                backTracking(N, newNum);
+            }
+
+        }
     }
 }
