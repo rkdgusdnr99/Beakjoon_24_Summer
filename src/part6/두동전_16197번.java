@@ -3,6 +3,62 @@ package part6;
 import java.io.*;
 import java.util.*;
 
+class Coin {
+    int y;
+    int x;
+
+    Coin(int y, int x) {
+        this.y = y;
+        this.x = x;
+    }
+
+    public Coin move(int dy, int dx, Board board) {
+        int nextY = y + dy;
+        int nextX = x + dx;
+
+        if (board.isOutOfBounds(nextY, nextX)) {
+            return null; // 경계를 벗어나면 null 반환
+        }
+
+        if (board.isWall(nextY, nextX)) {
+            return new Coin(y, x); // 벽을 만나면 이동하지 않음
+        }
+
+        return new Coin(nextY, nextX); // 새로운 위치 반환
+    }
+}
+
+class Board {
+    char[][] board;
+    boolean[][][][] visited;
+    int N, M;
+
+    Board(char[][] board, int N, int M) {
+        this.board = board;
+        this.N = N;
+        this.M = M;
+        visited = new boolean[N][M][N][M];
+    }
+
+    boolean isOutOfBounds(int y, int x) {
+        return y < 0 || y >= N || x < 0 || x >= M;
+    }
+
+    boolean isWall(int y, int x) {
+        return board[y][x] == '#';
+    }
+
+    boolean isVisited(Coin coin1, Coin coin2) {
+        return visited[coin1.y][coin1.x][coin2.y][coin2.x];
+    }
+
+    void markVisited(Coin coin1, Coin coin2) { // 중복 방지
+        visited[coin1.y][coin1.x][coin2.y][coin2.x] = true;
+        visited[coin1.y][coin1.x][coin1.y][coin1.x] = true;
+        visited[coin2.y][coin2.x][coin2.y][coin2.x] = true;
+    }
+}
+
 public class 두동전_16197번 {
 
     static int[][] move = {{1,0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -14,7 +70,7 @@ public class 두동전_16197번 {
         int N = Integer.parseInt(st.nextToken()); // 행
         int M = Integer.parseInt(st.nextToken()); // 열
 
-        int[][] coins = new int[2][2];
+        Coin[] coins = new Coin[2];
         char[][] board = new char[N][M];
         int coinIndex = 0;
 
@@ -23,88 +79,56 @@ public class 두동전_16197번 {
             for (int j = 0; j < M; j++) {
                 board[i][j] = line.charAt(j);
                 if (board[i][j] == 'o') { // 동전 발견 시 위치 저장
-                    coins[coinIndex][0] = i;
-                    coins[coinIndex][1] = j;
+                    coins[coinIndex] = new Coin(i, j);
                     coinIndex++;
                 }
             }
         }
 
-        System.out.println(dropCoin(coins, board, N, M));
+        Board realBoard = new Board(board, N, M);
+
+        System.out.println(dropCoin(coins, realBoard, N, M));
     }
 
-    static int dropCoin(int[][] coins, char[][] board, int N, int M) {
+    static int dropCoin(Coin[] coins, Board board, int N, int M) {
         boolean[][][][] visited = new boolean[N][M][N][M];
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{coins[0][0], coins[0][1], coins[1][0], coins[1][1], 0});
-        visited[coins[0][0]][coins[0][1]][coins[1][0]][coins[1][1]] = true;
-        visited[coins[0][0]][coins[0][1]][coins[0][0]][coins[0][1]] = true;
-        visited[coins[1][0]][coins[1][1]][coins[1][0]][coins[1][1]] = true;
+        queue.add(new int[]{coins[0].y, coins[0].x, coins[1].y, coins[1].x, 0});
+        board.markVisited(coins[0], coins[1]);
 
         while (!queue.isEmpty()) {
             int[] now = queue.poll();
-            int firstY = now[0];
-            int firstX = now[1];
-            int secondY = now[2];
-            int secondX = now[3];
+            int coin1Y = now[0];
+            int coin1X = now[1];
+            int coin2Y = now[2];
+            int coin2X = now[3];
             int count = now[4];
 
             if (count == 10) {
                 return -1;
             }
 
-            for (int i = 0; i < 2; i++) {
-                int nextFirstY = firstY + move[i][0];
-                int nextSecondY = secondY + move[i][0];
-                if (nextFirstY == N || nextFirstY < 0) {
-                    if (nextSecondY < N && nextSecondY >= 0) {
-                        return count + 1;
-                    }
-                    continue;
-                } else if (nextSecondY == N || nextSecondY < 0) {
-                    return count + 1;
-                }
-                if (board[nextFirstY][firstX] == '#') {
-                    nextFirstY = firstY;
-                }
-                if (board[nextSecondY][secondX] == '#') {
-                    nextSecondY = secondY;
-                }
-                if (!visited[nextFirstY][firstX][nextSecondY][secondX]) {
-                    visited[nextFirstY][firstX][nextSecondY][secondX] = true;
-                    visited[nextFirstY][firstX][nextFirstY][firstX] = true;
-                    visited[nextSecondY][secondX][nextSecondY][secondX] = true;
-                    queue.add(new int[]{nextFirstY, firstX, nextSecondY, secondX, count+1});
-                }
-            }
-            for (int i = 2; i < 4; i++) {
-                int nextFirstX = firstX + move[i][1];
-                int nextSecondX = secondX + move[i][1];
+            for (int i = 0; i < 4; i++) {
+                Coin nextCoin1 = new Coin(coin1Y, coin1X);
+                Coin nextCoin2 = new Coin(coin2Y, coin2X);
 
-                if (nextFirstX == M || nextFirstX < 0) {
-                    if (nextSecondX < M && nextSecondX >= 0) {
-                        return count + 1;
-                    }
-                    continue;
-                } else if (nextSecondX == M || nextSecondX < 0) {
+                nextCoin1 = nextCoin1.move(move[i][0], move[i][1], board);
+                nextCoin2 = nextCoin2.move(move[i][0], move[i][1], board);
+
+                if ((nextCoin1 == null && nextCoin2 != null )
+                        || (nextCoin1 != null && nextCoin2 == null)) {
                     return count + 1;
                 }
-                if (board[firstY][nextFirstX] == '#') {
-                    nextFirstX = firstX;
-                }
-                if (board[secondY][nextSecondX] == '#') {
-                    nextSecondX = secondX;
-                }
-                if (!visited[firstY][nextFirstX][secondY][nextSecondX]) {
-                    visited[firstY][nextFirstX][secondY][nextSecondX] = true;
-                    visited[firstY][nextFirstX][firstY][nextFirstX] = true;
-                    visited[secondY][nextSecondX][secondY][nextSecondX] = true;
-                    queue.add(new int[]{firstY, nextFirstX, secondY, nextSecondX, count+1});
+
+                if (nextCoin1 != null && nextCoin2 != null) { // 둘다 떨어지지 않은 경우
+                    if (!board.isVisited(nextCoin1, nextCoin2)) {
+                        board.markVisited(nextCoin1, nextCoin2);
+                        queue.add(new int[]{nextCoin1.y, nextCoin1.x, nextCoin2.y, nextCoin2.x, count + 1});
+                    }
                 }
             }
 
         }
-
         return -1;
     }
 
