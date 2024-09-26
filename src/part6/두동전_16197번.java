@@ -3,6 +3,7 @@ package part6;
 import java.io.*;
 import java.util.*;
 
+// Coin 클래스는 동전의 위치, 움직임을 담당
 class Coin {
     int y;
     int x;
@@ -28,6 +29,7 @@ class Coin {
     }
 }
 
+// Board 클래스는 판의 모양, 기록를 알려줌
 class Board {
     char[][] board;
     boolean[][][][] visited;
@@ -87,14 +89,13 @@ public class 두동전_16197번 {
 
         Board realBoard = new Board(board, N, M);
 
-        System.out.println(dropCoin(coins, realBoard, N, M));
+        System.out.println(dropCoin(coins, realBoard));
     }
 
-    static int dropCoin(Coin[] coins, Board board, int N, int M) {
-        boolean[][][][] visited = new boolean[N][M][N][M];
+    static int dropCoin(Coin[] coins, Board board) {
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{coins[0].y, coins[0].x, coins[1].y, coins[1].x, 0});
-        board.markVisited(coins[0], coins[1]);
+        queue.add(new int[]{coins[0].y, coins[0].x, coins[1].y, coins[1].x, 0}); // 코인 위치, 이동 횟수 기록
+        board.markVisited(coins[0], coins[1]); // 첫 위치 기록
 
         while (!queue.isEmpty()) {
             int[] now = queue.poll();
@@ -112,11 +113,12 @@ public class 두동전_16197번 {
                 Coin nextCoin1 = new Coin(coin1Y, coin1X);
                 Coin nextCoin2 = new Coin(coin2Y, coin2X);
 
+                // 두 코인 모두 움직여봄
                 nextCoin1 = nextCoin1.move(move[i][0], move[i][1], board);
                 nextCoin2 = nextCoin2.move(move[i][0], move[i][1], board);
 
                 if ((nextCoin1 == null && nextCoin2 != null )
-                        || (nextCoin1 != null && nextCoin2 == null)) {
+                        || (nextCoin1 != null && nextCoin2 == null)) { // 둘 중 하나 떨어짐
                     return count + 1;
                 }
 
@@ -129,7 +131,7 @@ public class 두동전_16197번 {
             }
 
         }
-        return -1;
+        return -1; // queue가 비면 -1 반환(경우의 수 없음)
     }
 
 }
