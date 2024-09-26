@@ -56,6 +56,7 @@ class Board {
 
     void markVisited(Coin coin1, Coin coin2) { // 중복 방지
         visited[coin1.y][coin1.x][coin2.y][coin2.x] = true;
+        visited[coin2.y][coin2.x][coin1.y][coin1.x] = true;
         visited[coin1.y][coin1.x][coin1.y][coin1.x] = true;
         visited[coin2.y][coin2.x][coin2.y][coin2.x] = true;
     }
